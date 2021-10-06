@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,400;0,500;1,300&display=swap"
+            rel="stylesheet"
+        />
+        <title>Svg Animation With Timer</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            html {
+                font-family: "Montserrat", sans-serif;
+                font-size: 3em;
+            }
+
+            div {
+                height: 100vh;
+                width: 100%;
+                background-color: #212121;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #fff;
+            }
+
+            #poly-svg .demo {
+                font-size: 50%;
+                font-weight: 100;
+                fill: #fff;
+            }
+
+            #poly-svg .day-to-apply {
+                font-size: 60%;
+                fill: #fff;
+            }
+
+            .polymorph {
+                transform: scale(4);
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <svg height="410" width="500" viewBox="0 0 410 500" id="poly-svg">
+                <g transform="translate(50,50)">
+                    <polygon
+                        class="polymorph"
+                        stroke-width="0.5"
+                        stroke="currentColor"
+                        fill="transparent"
+                        points="0,10 20,60 30,40 30,10"
+                    ></polygon>
+                    <text
+                        x="10"
+                        y="54"
+                        alignment-baseline="middle"
+                        text-anchor="middle"
+                        class="demo"
+                        transform="translate(100,30)"
+                    ></text>
+                    <text
+                        x="10"
+                        y="54"
+                        alignment-baseline="middle"
+                        text-anchor="middle"
+                        class="day-to-apply"
+                        transform="translate(100,70)"
+                    >
+                        DAYS TO APPLY
+                    </text>
+                </g>
+            </svg>
+        </div>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"
+            integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+
+        <script src="./app.js"></script>
+
+        <script>
+            // Set the date we're counting down to
+            let countDownDate = new Date("Jan 5, 2022 15:37:25").getTime();
+
+            // Update the count down every 1 second
+            let x = setInterval(function () {
+                // Get today's date and time
+                let now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                let distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                let hours = Math.floor(
+                    (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                let minutes = Math.floor(
+                    (distance % (1000 * 60 * 60)) / (1000 * 60)
+                );
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result in the element with id="demo"
+                document.querySelector(".demo").innerHTML =
+                    days +
+                    "d " +
+                    hours +
+                    "h " +
+                    minutes +
+                    "m " +
+                    seconds +
+                    "s ";
+
+                // If the count down is finished, write some text
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.querySelector(".demo").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+
+            //add svg animation
+            anime({
+                targets: ".polymorph",
+                points: [
+                    {
+                        value: [
+                            "0,10 -25,30 25,40 50,10",
+                            "0,10 30,40 40,14 30,-10",
+                        ],
+                    },
+                    {
+                        value: "0,10 25,40 32,13 32,-5",
+                    },
+                    {
+                        value: "0,10 10,30 60,30 40,10",
+                    },
+                    {
+                        value: "0,10 10,50 40,40 30,10",
+                        rotate: "1turn",
+                    },
+                ],
+                easing: "easeOutQuad",
+                duration: 6000,
+                loop: true,
+                direction: "alternate",
+            });
+        </script>
+    </body>
+</html>
